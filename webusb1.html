@@ -1,0 +1,103 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>WebUSB Demo</title>  
+</head>  
+<body>  
+    <h1>WebUSB Demo</h1>  
+    <button id="connectButton">Connect Device</button>  
+    <button id="sendDataButton" disabled>Send Data</button>  
+  
+    <script>  
+	function delay(ms) {  
+		return new Promise(resolve => setTimeout(resolve, ms));  
+	} 
+        document.getElementById('connectButton').addEventListener('click', async () => {  
+            try {  
+                // 请求访问USB设备  
+                const device = await navigator.usb.requestDevice({ filters: [{ vendorId: 0x1234, productId: 0x0101 }] }); // 替换0xXXXX和0xYYYY为你的设备的Vendor ID和Product ID  
+				//const device = await navigator.usb.requestDevice({ filters: [{ vendorId: 0x2FB8, productId: 0x1101 }] }); // 替换0xXXXX和0xYYYY为你的设备的Vendor ID和Product ID  
+  
+                console.log('Device connected:', device);  
+                console.log('Device opened:', device.opened);  
+  
+                // 打开设备  
+                await device.open();  
+                console.log('Device opened:', device.opened);  
+  
+                // 如果设备需要，则声明接口和端点  
+                // 这里的接口和端点编号需要根据你的设备文档来确定  
+                const interfaceNumber = 0; // 示例接口编号  
+                const endpoint = device.configuration.interfaces[interfaceNumber].endpoints[0]; // 示例端点，通常你需要根据接口和端点描述选择正确的端点  
+  
+                // 选择配置和声明接口（如果需要）  
+                // await device.selectConfiguration(1); // 示例配置编号，根据设备文档确定  
+                // await device.claimInterface(interfaceNumber); // 声明接口  
+  
+                // 启用发送数据按钮  
+                document.getElementById('sendDataButton').disabled = false;  
+  
+                // 可以在这里保存device、endpoint等变量以供后续使用  
+            } catch (error) {  
+                console.error('Error connecting to device:', error);  
+            }  
+        });  
+  
+        document.getElementById('sendDataButton').addEventListener('click', async () => {  
+            try {  
+                // 这里假设你已经有了device和endpoint变量  
+                // 由于上面的代码是异步的，并且设备连接可能发生在不同的作用域中，  
+                // 因此你需要确保这些变量在发送数据时是可用的。  
+                // 一种方法是使用全局变量或闭包来保存这些值。  
+  
+                // 示例数据（需要根据你的设备协议来确定）  
+                const data = new Uint8Array([0x40, 0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00]);  
+  
+                // 发送数据  
+                const result = await device.transferOut(endpoint.address, data);  
+                console.log('Control Transfer:', result);  
+				await delay(1000);
+
+				while(1) {
+					const data1 = new Uint8Array([0x01, 0xA1, 0x02, 0x00, 0x08, 0x00]);
+					const result1 = await device.transferOut(endpoint.address, data1);  
+					const data2 = new Uint8Array([0x02, 0x91, 0x02, 0x00, 0x08, 0x00]);
+					const result2 = await device.transferOut(endpoint.address, data2);  
+					const data3 = new Uint8Array([0x03, 0x81, 0x02, 0x00, 0x08, 0x00]);
+					const result3 = await device.transferOut(endpoint.address, data3);  
+					const data4 = new Uint8Array([0x04, 0xF1, 0x02, 0x00, 0x08, 0x00]);
+					const result4 = await device.transferOut(endpoint.address, data4); 
+					const data5 = new Uint8Array([0x05, 0xE1, 0x02, 0x00, 0x08, 0x00]);
+					const result5 = await device.transferOut(endpoint.address, data5);  
+					const data6 = new Uint8Array([0x06, 0xD1, 0x02, 0x00, 0x08, 0x00]);
+					const result6 = await device.transferOut(endpoint.address, data6);  
+					const data7 = new Uint8Array([0x07, 0xC1, 0x02, 0x00, 0x08, 0x00]);
+					const result7 = await device.transferOut(endpoint.address, data7);  
+					const data8 = new Uint8Array([0x08, 0x31, 0x02, 0x00, 0x08, 0x00]);
+					const result8 = await device.transferOut(endpoint.address, data8);  
+					const data9 = new Uint8Array([0x09, 0x21, 0x02, 0x00, 0x08, 0x00]);
+					const result9 = await device.transferOut(endpoint.address, data9);  
+					const data10 = new Uint8Array([0x0A, 0x11, 0x02, 0x00, 0x08, 0x00]);
+					const result10 = await device.transferOut(endpoint.address, data10);  
+					const data11 = new Uint8Array([0x0B, 0x01, 0x02, 0x00, 0x08, 0x00]);
+					const result11 = await device.transferOut(endpoint.address, data11);  
+					const data12 = new Uint8Array([0x0C, 0x71, 0x02, 0x00, 0x08, 0x00]);
+					const result12 = await device.transferOut(endpoint.address, data12);  
+					const data13 = new Uint8Array([0x0D, 0x61, 0x02, 0x00, 0x08, 0x00]);
+					const result13 = await device.transferOut(endpoint.address, data13);  
+					const data14 = new Uint8Array([0x0E, 0x51, 0x02, 0x00, 0x08, 0x00]);
+					const result14 = await device.transferOut(endpoint.address, data14);  
+					const data15 = new Uint8Array([0x0F, 0x41, 0x02, 0x00, 0x08, 0x00]);
+					const result15 = await device.transferOut(endpoint.address, data15);  
+					const data0 = new Uint8Array([0x00, 0xB1, 0x02, 0x00, 0x08, 0x00]);
+					const result0 = await device.transferOut(endpoint.address, data0); 
+				}
+            } catch (error) {  
+                console.error('Error sending data:', error);  
+            }  
+        });  
+    </script>  
+</body>  
+</html>
